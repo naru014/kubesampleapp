@@ -6,7 +6,7 @@ var host;
 var handleRequest = function(request, response) {
   response.setHeader('Content-Type', 'text/plain');
   response.writeHead(200);
-  response.write("!!!!!!!!!!!!!!!!!Welcome to SGX Demo!!!!!!!!!!!!!!!!!\n");
+  response.write("!!!!!!!!!!!!!!!!!Welcome to SGX Demo!!!!!!!!!\n");
   response.write("This is a an app that gives your the current pod that is serving the request!!!!\n");
   response.write("The request is served by: ");
   response.write(host);

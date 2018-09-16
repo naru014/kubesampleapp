@@ -31,6 +31,6 @@ spec:
     spec:
       containers:
       - name: kube-sampleapppod
-        image: naru014/kubernetessampleapp:sgx_16
+        image: naru014/kubernetessampleapp:41
         ports:
         - containerPort: 80

@@ -9,8 +9,8 @@ var handleRequest = function(request, response) {
   response.write("!!!!!!!Welcome to SGX Demo!!!!\n");
   response.write("This is a an app that gives your the current pod that is serving the request!!!!\n");
   response.write("The request is served by: ");
-  response.write("The is coming from Build Number 60 ");
   response.write(host);
+  response.write("The is coming from Build Number 63 ");
   response.end("\nThank you for visting this page!!!!!!!!!!\n");
   console.log("Running On:" ,host, "| Total Requests:", ++requests,"| App Uptime:", (new Date() - startTime)/1000 , "seconds", "| Log Time:",new Date());
 }

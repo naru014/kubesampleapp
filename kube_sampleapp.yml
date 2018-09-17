@@ -10,7 +10,7 @@ spec:
   - port: 8100
     targetPort: 8080
   selector:
-    app: kube-sampleapp
+    app: sgx-demoapp
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
@@ -31,6 +31,6 @@ spec:
     spec:
       containers:
       - name: sgx-demoapppod
-        image: naru014/kubernetessampleapp:51
+        image: naru014/kubernetessampleapp:53
         ports:
         - containerPort: 80

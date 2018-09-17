@@ -31,6 +31,6 @@ spec:
     spec:
       containers:
       - name: sgx-demoapppod
-        image: naru014/kubernetessampleapp:60
+        image: naru014/kubernetessampleapp:61
         ports:
         - containerPort: 80

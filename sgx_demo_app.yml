@@ -7,21 +7,21 @@ metadata:
 spec:
   type: NodePort
   ports:
-  - port: 8100
+  - port: 8200
     targetPort: 8080
   selector:
     app: sgx-demoapp
 ---
-apiVersion: extensions/v1beta1
-kind: Deployment
+apiVersion: v1
+kind: DeploymentConfig
 metadata:
   name: sgx-demoapp
 spec:
   replicas: 2
   minReadySeconds: 10
   strategy:
-    type: RollingUpdate
-    rollingUpdate:
+    type: Rolling
+    rollingParams:
       maxUnavailable: 1
       maxSurge: 1
   template:
@@ -31,6 +31,6 @@ spec:
     spec:
       containers:
       - name: sgx-demoapppod
-        image: naru014/kubernetessampleapp:64
+        image: naru014/kubernetessampleapp:65
         ports:
         - containerPort: 80

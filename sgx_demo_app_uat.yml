@@ -31,6 +31,16 @@ spec:
     spec:
       containers:
       - name: sgx-demoapp-pod
-        image: naru014/kubernetessampleapp:29
+        image: naru014/kubernetessampleapp:28
         ports:
         - containerPort: 80
+          "env": [
+             {
+                "name": "DB_USER",
+                 "value": "dbuser"
+             },
+             {
+                "name": "DB_PASSWORD",
+                 "value": "dbpassword"
+             }
+           ]

@@ -40,7 +40,10 @@ spec:
                  "value": "dbuser"
              },
              {
-                "name": "DB_PASSWORD",
-                 "value": "dbpassword"
+              name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: dbpassword
              }
            ]

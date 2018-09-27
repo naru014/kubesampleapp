@@ -2,7 +2,7 @@ node {
        echo 'This is a pipeline that performs deployment of application to SIT and UAT environment'
    
    stage('Code Checkout') {
-    checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'github_userid_kr', url: 'https://github.com/naru014/kubesampleapp']]])
+    checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'deepak-github', url: 'https://github.com/DeepakYadav17/kubesampleapp']]])
     sh '''pwd
     ls'''
 //    withCredentials([usernamePassword(credentialsId: 'github_userid', passwordVariable: 'gitloginPwd', usernameVariable: 'gitloginUser')]){
@@ -36,16 +36,16 @@ node {
          //withCredentials([string(credentialsId: 'oclogintoken', variable: 'TOKEN')]) {
     def sitToken = params.sittoken
     sh '''
-    #wget https://github.com/openshift/origin/releases/download/v1.5.1/openshift-origin-client-tools-v1.5.1-7b451fc-linux-64bit.tar.gz
-    #tar -xvf openshift-origin-client-tools-v1.5.1-7b451fc-linux-64bit.tar.gz
-    #mv openshift-origin-client-tools-v1.5.1-7b451fc-linux-64bit oc-tool
-    #cd oc-tool
-    #pwd
+    wget https://github.com/openshift/origin/releases/download/v1.5.1/openshift-origin-client-tools-v1.5.1-7b451fc-linux-64bit.tar.gz
+    tar -xvf openshift-origin-client-tools-v1.5.1-7b451fc-linux-64bit.tar.gz
+    mv openshift-origin-client-tools-v1.5.1-7b451fc-linux-64bit oc-tool
+    cd oc-tool
+    pwd
     '''
-    sh "/var/jenkins_home/workspace/SGX-Demo-Pipeline-2/oc-tool/oc login https://masterocp.southindia.cloudapp.azure.com:8443 --token=$sitToken --insecure-skip-tls-verify"
+    sh "/var/jenkins_home/workspace/Openshift-Demo-Pipeline/oc-tool/oc login https://masterocp.southindia.cloudapp.azure.com:8443 --token=$sitToken --insecure-skip-tls-verify"
  //}
-     sh '''/var/jenkins_home/workspace/SGX-Demo-Pipeline-2/oc-tool/oc project sit
-        /var/jenkins_home/workspace/SGX-Demo-Pipeline-2/oc-tool/oc apply -f sgx_demo_app.yml  
+     sh '''/var/jenkins_home/workspace/Openshift-Demo-Pipeline/oc-tool/oc project sit
+        /var/jenkins_home/workspace/Openshift-Demo-Pipeline/oc-tool/oc apply -f sgx_demo_app.yml  
         echo " Application Successfully Deployed in SIT"
       '''
    }
@@ -55,12 +55,12 @@ node {
      stage ('Approval for Deployment to UAT'){
         mail bcc: '', body: '''Hi,
 
-        SGX Demo App deployment to UAT is waiting for your approval. 
+        Demo App deployment to UAT is waiting for your approval. 
         Kindly login to Jenkins and take action to proceed.
-        Click on this link to go to Jenkins Build URL : https://jenkins40.devcap2.hclets.com/job/SGX-Demo-Pipeline-3/
+        Click on this link to go to Jenkins Build URL : https://jenkins40.devcap2.hclets.com/job/Openshift-Demo-Pipeline/
 
         Regards
-        SGX Jenkins''', cc: '', from: '', replyTo: '', subject: 'SGX Demo App Deployment to UAT Awaiting your approval', to: 'narayanan.ko@hcl.com,deepakpandhari.y@hcl.com'
+        Jenkins''', cc: '', from: '', replyTo: '', subject: 'Demo App Deployment to UAT Awaiting your approval', to: 'narayanan.ko@hcl.com,deepakpandhari.y@hcl.com'
         
         input id: 'DeploymentApprovalForUAT', message: 'proceed or abort', ok: 'DeployToUAT', submitter: 'narayanan.ko,muralikrishna_r'
 
@@ -69,11 +69,11 @@ node {
      stage ('Deploy to UAT'){
     //     withCredentials([string(credentialsId: 'oclogintokenuat', variable: 'TOKEN')]) {
     def uatToken = params.uattoken
-    sh "/var/jenkins_home/workspace/SGX-Demo-Pipeline-2/oc-tool/oc login https://masterocp.southindia.cloudapp.azure.com:8443 --token=$uatToken --insecure-skip-tls-verify"
+    sh "/var/jenkins_home/workspace/Openshift-Demo-Pipeline/oc-tool/oc login https://masterocp.southindia.cloudapp.azure.com:8443 --token=$uatToken --insecure-skip-tls-verify"
   }
      sh '''
-        /var/jenkins_home/workspace/SGX-Demo-Pipeline-2/oc-tool/oc project uat
-        /var/jenkins_home/workspace/SGX-Demo-Pipeline-2/oc-tool/oc apply -f sgx_demo_app.yml 
+        /var/jenkins_home/workspace/Openshift-Demo-Pipeline/oc-tool/oc project uat
+        /var/jenkins_home/workspace/Openshift-Demo-Pipeline/oc-tool/oc apply -f sgx_demo_app.yml 
         echo " Application Successfully Deployed in UAT"
       '''
     // }
@@ -84,12 +84,12 @@ node {
      stage ('Rollback UAT Deployment'){
         mail bcc: '', body: '''Hi,
 
-        SGX Demo App deployment to UAT is waiting for your approval to rollback. 
+        Demo App deployment to UAT is waiting for your approval to rollback. 
         Kindly login to Jenkins and take action to proceed.
-        Click on this link to go to Jenkins Build URL : https://jenkins40.devcap2.hclets.com/job/SGX-Demo-Pipeline-3/
+        Click on this link to go to Jenkins Build URL : https://jenkins40.devcap2.hclets.com/job/Openshift-Demo-Pipeline/
 
         Regards
-        SGX Jenkins''', cc: '', from: '', replyTo: '', subject: 'SGX Demo App Deployment to UAT Awaiting your approval', to: 'narayanan.ko@hcl.com,deepakpandhari.y@hcl.com'
+        Jenkins''', cc: '', from: '', replyTo: '', subject: 'Demo App Deployment to UAT Awaiting your approval', to: 'narayanan.ko@hcl.com,deepakpandhari.y@hcl.com'
         
         input id: 'RollbackApprovalForUAT', message: 'proceed or abort', ok: 'RollbackInUAT', submitter: 'narayanan.ko,muralikrishna_r'
 
@@ -98,11 +98,11 @@ node {
    stage ('Rollback in UAT'){
     //     withCredentials([string(credentialsId: 'oclogintokenuat', variable: 'TOKEN')]) {
     def uatToken = params.uattoken
-    sh "/var/jenkins_home/workspace/SGX-Demo-Pipeline-2/oc-tool/oc login https://masterocp.southindia.cloudapp.azure.com:8443 --token=$uatToken --insecure-skip-tls-verify"
+    sh "/var/jenkins_home/workspace/Openshift-Demo-Pipeline/oc-tool/oc login https://masterocp.southindia.cloudapp.azure.com:8443 --token=$uatToken --insecure-skip-tls-verify"
   }
      sh '''
-        /var/jenkins_home/workspace/SGX-Demo-Pipeline-2/oc-tool/oc project uat
-        /var/jenkins_home/workspace/SGX-Demo-Pipeline-2/oc-tool/oc rollback sgx-demo-app 
+        /var/jenkins_home/workspace/Openshift-Demo-Pipeline/oc-tool/oc project uat
+        /var/jenkins_home/workspace/Openshift-Demo-Pipeline/oc-tool/oc rollback sgx-demo-app 
         echo " Application Successfully rolled back in UAT"
       '''
     // }

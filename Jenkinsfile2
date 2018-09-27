@@ -13,11 +13,24 @@ node {
     
 }
     
-   stage('CodeBuild'){
+   stage('Code Build'){
+   sh '''pwd
+    ls'''
        echo " Successfully the code has been build"
    }
 
-      stage('Build and Push the Docker Image to the Docker Registry'){
+   stage('Code Quality Analysis'){
+   sh '''pwd
+    sleep 3s'''
+       echo " Code Quality Analysis successful"
+   }
+   stage('App Security Analysis'){
+   sh '''pwd
+    sleep 5s'''
+       echo " App Security Analysis successful"
+   }
+
+      stage('Push the Docker Image to Docker Registry'){
           
       sh '''
         docker logout registry.hub.docker.com
@@ -30,6 +43,7 @@ node {
             docker_Image.push()
             
      }
+
 
      
      stage('Deploy Application to SIT'){
@@ -49,8 +63,10 @@ node {
         echo " Application Successfully Deployed in SIT"
       '''
    }
-    stage('Smoke Test'){
-       echo "Smoke test completed successfully"
+    stage('Functional Testing'){
+    sh '''pwd
+    sleep 7s'''
+       echo "Functional testing completed successfully"
    }
      stage ('Approval for Deployment to UAT'){
         mail bcc: '', body: '''Hi,

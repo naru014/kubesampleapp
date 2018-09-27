@@ -57,12 +57,12 @@ node {
 
         Demo App deployment to UAT is waiting for your approval. 
         Kindly login to Jenkins and take action to proceed.
-        Click on this link to go to Jenkins Build URL : https://jenkins40.devcap2.hclets.com/job/Openshift-Demo-Pipeline/
+        Click on this link to go to Jenkins Build URL : https://jenkins40.devcap2.hclets.com/job/Openshift-Demo-Pipeline/${env.BUILD_ID}/input
 
         Regards
         Jenkins''', cc: '', from: '', replyTo: '', subject: 'Demo App Deployment to UAT Awaiting your approval', to: 'narayanan.ko@hcl.com,deepakpandhari.y@hcl.com'
         
-        input id: 'DeploymentApprovalForUAT', message: 'proceed or abort', ok: 'DeployToUAT', submitter: 'narayanan.ko,muralikrishna_r'
+        input id: 'DeploymentApprovalForUAT', message: 'Do you approve?', ok: 'Approve', parameters: [string(defaultValue: '', description: 'Change record number in Change management system', name: 'Change-Number')], submitter: 'narayanan.ko,muralikrishna_r'
 
      }
      
@@ -86,12 +86,12 @@ node {
 
         Demo App deployment to UAT is waiting for your approval to rollback. 
         Kindly login to Jenkins and take action to proceed.
-        Click on this link to go to Jenkins Build URL : https://jenkins40.devcap2.hclets.com/job/Openshift-Demo-Pipeline/
+        Click on this link to go to Jenkins Build URL : https://jenkins40.devcap2.hclets.com/job/Openshift-Demo-Pipeline/${env.BUILD_ID}/input
 
         Regards
         Jenkins''', cc: '', from: '', replyTo: '', subject: 'Demo App Deployment to UAT Awaiting your approval', to: 'narayanan.ko@hcl.com,deepakpandhari.y@hcl.com'
         
-        input id: 'RollbackApprovalForUAT', message: 'proceed or abort', ok: 'RollbackInUAT', submitter: 'narayanan.ko,muralikrishna_r'
+        input id: 'RollbackApprovalForUAT', message: 'Do you approve rollback?', ok: 'Approve', parameters: [string(defaultValue: '', description: 'Change record number in Change management system', name: 'Change-Number')], submitter: 'narayanan.ko,muralikrishna_r'
 
      }
    

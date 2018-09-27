@@ -50,10 +50,10 @@ node {
          //withCredentials([string(credentialsId: 'oclogintoken', variable: 'TOKEN')]) {
     def sitToken = params.sittoken
     sh '''
-    wget https://github.com/openshift/origin/releases/download/v1.5.1/openshift-origin-client-tools-v1.5.1-7b451fc-linux-64bit.tar.gz
-    tar -xvf openshift-origin-client-tools-v1.5.1-7b451fc-linux-64bit.tar.gz
-    mv openshift-origin-client-tools-v1.5.1-7b451fc-linux-64bit oc-tool
-    cd oc-tool
+    #wget https://github.com/openshift/origin/releases/download/v1.5.1/openshift-origin-client-tools-v1.5.1-7b451fc-linux-64bit.tar.gz
+    #tar -xvf openshift-origin-client-tools-v1.5.1-7b451fc-linux-64bit.tar.gz
+    #mv openshift-origin-client-tools-v1.5.1-7b451fc-linux-64bit oc-tool
+    #cd oc-tool
     pwd
     '''
     sh "/var/jenkins_home/workspace/Openshift-Demo-Pipeline/oc-tool/oc login https://masterocp.southindia.cloudapp.azure.com:8443 --token=$sitToken --insecure-skip-tls-verify"
